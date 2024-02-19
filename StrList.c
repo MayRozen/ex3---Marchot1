@@ -2,6 +2,8 @@
 #include "StrList.h"
 #include <stdlib.h>
 
+int compare(const void *a, const void *b);
+
 // Node & List Data Structures
 typedef struct _node {
     char _data;
