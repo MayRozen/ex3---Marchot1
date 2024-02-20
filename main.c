@@ -16,10 +16,10 @@ int main(){
         case 1:
             scanf(" %d", &input);
             scanf(" %s", str);
-            for(int i = 0; i<input;i++){
-                int j = 0;
+            for(int i=0; i<input; i++){
+                int j=0;
                 char word[SIZE];
-                while(strcmp(&str[i]," ")!=0){
+                if(strcmp(&str[i]," ")!=0){
                     word[j] = str[i]; 
                 } 
                 StrList_insertLast(StrList, word);
