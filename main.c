@@ -8,7 +8,6 @@ int main(){
     int input;
     char str[SIZE];
     int index;
-    // int graph[GRAPH_SIZE][GRAPH_SIZE];
 
     do{
         scanf(" %d", &input);
