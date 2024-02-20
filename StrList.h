@@ -34,7 +34,7 @@ void StrList_free(StrList* StrList);
 /*
  * Returns the number of elements in the StrList.
  */
-size_t StrList_size(const StrList* StrList);
+size_t StrList_size(StrList* StrList);
 
 /*
  * Inserts an element in the end of the StrList.
