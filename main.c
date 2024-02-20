@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include "StrList.h"
+#include "StrList.c"
 #define SIZE 1000
 
 int main(){
     StrList* StrList= StrList_alloc(); //Creating a new list.
     int input;
-    const char str[SIZE];
+    char str[SIZE];
     int index;
     // int graph[GRAPH_SIZE][GRAPH_SIZE];
 
@@ -24,7 +25,7 @@ int main(){
         case 2:
         scanf(" %d", &index);
         scanf(" %s", str);
-            trList_insertAt(StrList,str,index);
+            StrList_insertAt(StrList,str,index);
             break;
 
         case 3:
@@ -64,7 +65,7 @@ int main(){
 
 
         case 9:
-        scanf(" %d", index);
+        scanf(" %d", &index);
         StrList_removeAt(StrList,index);
             return 0;     
             break;
