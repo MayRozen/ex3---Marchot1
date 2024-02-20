@@ -85,8 +85,8 @@ char* StrList_firstData(const StrList* list){
 }
 
 void StrList_print(const StrList* StrList){
-    const Node* p= StrList->_head;
-	while(p) {
+    const Node* p = StrList->_head;
+	while(p!=NULL) {
 		printf(" %.2s",p->_data);
 		p= p->_next;
 	}
@@ -159,7 +159,7 @@ void StrList_remove(StrList* list, const char* data){//hadar
 void StrList_removeAt(StrList* list, int index){//hadar
 	Node* p = list->_head;
 	Node* prev = NULL;
-	for (int i = 0;i<=index;i++){
+	for (int i = 0; i<=index; i++){
 		if(i==index){
 			if (prev == NULL) {
 					// If the match is in the first node
@@ -185,7 +185,7 @@ int StrList_isEqual(const StrList* StrList1, const StrList* StrList2){
 	
 	const Node* p1= StrList1->_head;
 	const Node* p2= StrList2->_head;
-	while(p1) {
+	while(p1!=NULL) {
 		if (p2==NULL||p1->_data!=p2->_data) return neq;
 		p1= p1->_next;
 		p2= p2->_next;
