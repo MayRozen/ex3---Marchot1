@@ -23,6 +23,10 @@ StrList* StrList_alloc(){
 	return p;
 }
 
+void Node_free(Node* node) {
+	free(node);
+}
+
 void StrList_free(StrList* StrList){
     if (StrList == NULL){
         return;
@@ -45,30 +49,33 @@ size_t StrList_size(const StrList* StrList){
 
 void StrList_insertLast(StrList* StrList, const char* data){
 	Node* start = StrList->_head;
+	char d = data[0];
 
 	if(start == NULL){ //StrList is empty
-		StrList->_head->_data = data;
+		start->_data = d;
 	}
 	else{
 		while(start != NULL){
 			start = start->_next;
 		}
 		start = start->_next;
-		start->_data = data;
+		start->_data = d;
 	}
 }
 
 void StrList_insertAt(StrList* StrList, const char* data,int index){
 	Node* start = StrList->_head;
+	char d = data[0];
 
 	for(int i=0; i<index && start!=NULL; i++){
 		start = start->_next;
 	}
-	start->_data = data;
+	start->_data = d;
 }
 
 char* StrList_firstData(const StrList* list){
-    return list->_head->_data;
+	char ans = list->_head->_data;
+    return ans;
 }
 
 void StrList_print(const StrList* StrList){
