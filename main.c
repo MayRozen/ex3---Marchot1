@@ -1,13 +1,11 @@
 #include <stdio.h>
 #include "StrList.h"
-#include "StrList.c"
-
+#define SIZE 1000
 
 int main(){
-StrList* StrList;
-    StrList_alloc(); //Creating a new list.
+    StrList* StrList= StrList_alloc(); //Creating a new list.
     int input;
-    char* str;
+    const char str[SIZE];
     int index;
     // int graph[GRAPH_SIZE][GRAPH_SIZE];
 
@@ -16,13 +14,16 @@ StrList* StrList;
         switch (input)
         {
         case 1:
-            scanf(" %s", str);
-            StrList_insertLast(StrList, str);
+            scanf(" %d", &input);
+            for(int i=0;i<input;i++){
+                scanf(" %s", str);
+                StrList_insertLast(StrList, str);
+            } 
             break;
 
         case 2:
-            scanf(" %d", &index);
-            scanf(" %s", str);
+        scanf(" %d", &index);
+        scanf(" %s", str);
             trList_insertAt(StrList,str,index);
             break;
 
@@ -31,68 +32,69 @@ StrList* StrList;
             break;
 
         case 4:
-            StrList_size(StrList);
+        StrList_size(StrList);
             return 0;
             break;
 
         case 5:
-            scanf(" %d", &index);
-            StrList_printAt(StrList,index);
+        scanf(" %d", &index);
+        StrList_printAt(StrList,index);
             return 0;     
             break;
 
 
         case 6:
-            StrList_printLen(StrList);
+        StrList_printLen(StrList);
             return 0;     
             break;
 
 
         case 7:
-            scanf(" %s", str);
-            StrList_count( StrList,str);
+        scanf(" %s", str);
+        StrList_count( StrList,str);
             return 0;     
             break;
 
 
         case 8:
-            scanf(" %s", str);
-            StrList_remove(StrList,str);
+        scanf(" %s", str);
+        StrList_remove(StrList,str);
             return 0;     
             break;
 
 
         case 9:
-            scanf(" %d", index);
-            StrList_removeAt(StrList,index);
+        scanf(" %d", index);
+        StrList_removeAt(StrList,index);
             return 0;     
             break;
 
 
         case 10:
-            StrList_reverse(StrList);
+        StrList_reverse(StrList);
             return 0;     
             break;
 
 
         case 11:
-            StrList_clone(StrList);
+            StrList_free(StrList);
             return 0;     
             break;
 
 
         case 12:
-            StrList_sort(StrList);
+        StrList_sort(StrList);
             return 0;     
             break;
 
 
         case 13:
-            StrList_isSorted(StrList);
+        StrList_isSorted(StrList);
             return 0;     
             break;
 
         case 0:
+        StrList_free(StrList);
             return 0;
             break;
             
@@ -104,3 +106,4 @@ StrList* StrList;
     
 return 0;
 }
+
