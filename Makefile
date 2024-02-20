@@ -4,11 +4,11 @@ CFLAGS = -Wall -g
 
 all: StrList
 
-libStrList.a: my_mat.o
-	$(AR) rcs libmy_mat.a my_mat.o
+libStrList.a: StrList.o
+	$(AR) rcs libStrList.a StrList.o
 
-StrList.o: my_mat.c my_mat.h
-	$(CC) $(CFLAGS) -c my_mat.c
+StrList.o: StrList.c StrList.h
+	$(CC) $(CFLAGS) -c StrList.c
 
 StrList: main.o libStrList.a
 	$(CC) $(CFLAGS) $^ -o $@
