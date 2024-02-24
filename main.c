@@ -1,104 +1,104 @@
 #include <stdio.h>
 #include "StrList.h"
 #include "StrList.c"
-#define SIZE 1000
 
 int main(){
-    StrList* StrList = StrList_alloc(); //Creating a new list.
+    StrList* list = StrList_alloc(); //Creating a new list.
     int input;
-    char str[SIZE];
     int index;
+    char word[50];
+    
 
     do{
-        scanf(" %d", &input);
+        scanf("%d", &input);
         switch (input)
         {
         case 1:
-            scanf(" %d", &input);
-            scanf(" %s", str);
-            for(int i=0; i<input; i++){
-                int j=0;
-                char word[SIZE];
-                if(strcmp(&str[i]," ")!=0){
-                    word[j] = str[i]; 
-                } 
-                StrList_insertLast(StrList, word);
+            scanf("%d", &input);
+            for(int i = 0;i < input;i++){
+                char newWord[50];
+                scanf("%s",newWord);
+                StrList_insertLast(list, newWord);
             }
             break;
 
         case 2:
             scanf(" %d", &index);
-            scanf(" %s", str);
-            StrList_insertAt(StrList,str,index);
+            char words[50];
+            if(scanf("%s",words)>=0){
+                StrList_insertAt(list,words,index);
+            }
             break;
 
         case 3:
-            StrList_print(StrList);
+            StrList_print(list);
             break;
 
         case 4:
-            StrList_size(StrList);
+            StrList_size(list);
             break;
 
         case 5:
             scanf(" %d", &index);
-            StrList_printAt(StrList,index);    
+            StrList_printAt(list,index);    
             break;
 
 
         case 6:
-            StrList_printLen(StrList);    
+            StrList_printLen(list);    
             break;
 
 
         case 7:
-            scanf(" %s", str);
-            StrList_count( StrList,str);     
+            scanf("%s", word);
+            StrList_count(list,word);     
             break;
 
 
         case 8:
-            scanf(" %s", str);
-            StrList_remove(StrList,str);    
+            scanf("%s", word);
+            StrList_remove(list,word);    
             break;
 
 
         case 9:
             scanf(" %d", &index);
-            StrList_removeAt(StrList,index);    
+            StrList_removeAt(list,index);    
             break;
 
 
         case 10:
-            StrList_reverse(StrList);    
+            StrList_reverse(list);    
             break;
 
 
         case 11:
-            StrList_free(StrList);    
+            int i = list->_size-1;
+            while(i>=0){
+                StrList_removeAt(list,i);
+                i--;
+            }   
             break;
 
-
         case 12:
-            StrList_sort(StrList);   
+            StrList_sort(list);   
             break;
 
 
         case 13:
-            StrList_isSorted(StrList);    
+            StrList_isSorted(list);    
             break;
 
         case 0:
-            StrList_free(StrList);
+            StrList_free(list);
             return 0;
             break;
             
         default:
+            return 0;
             break;
         } 
-    }
-    while(1);
+    }while(input!=0);
     
 return 0;
 }
-
