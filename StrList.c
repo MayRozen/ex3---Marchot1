@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int compare(const void *a, const void *b);
+int Compare_list(const void *a, const void *b);
 
 // Node & List Data Structures
 typedef struct _node {
@@ -22,6 +22,13 @@ StrList* StrList_alloc(){
 	p->_head = NULL;
 	p->_size = 0;
 	return p;
+}
+
+Node* Node_alloc(char* data,Node* next){
+	Node* n = (Node*)malloc(sizeof(Node));
+	n->_data = data;
+	n->_next = next;
+	return n;
 }
 
 void Node_free(Node* node) {
@@ -43,39 +50,41 @@ void StrList_free(StrList* StrList){
 
 }
 
-size_t StrList_size(StrList* StrList){
+size_t StrList_size(const StrList* StrList){
+	int size = (int)StrList->_size;
+	printf("%d\n",size);
     return StrList->_size;
 
 }
 
 void StrList_insertLast(StrList* StrList, const char* data){
-	Node* newNode = (Node*)malloc(sizeof(Node));
-	newNode->_data = NULL;
-	strcpy(newNode->_data, data);
-	newNode->_next = NULL;
+	char* str = strdup(data);
+	Node* newNode = Node_alloc(str,NULL);
 	if(StrList->_head == NULL){
 		StrList->_head = newNode;
 	}
-	Node* p = StrList->_head;
-	while(p->_next != NULL){
-		p = p->_next;
+	else{
+		Node* p = StrList->_head;
+		while(p->_next != NULL){
+			p = p->_next;
+		}
+		p->_next = newNode;
 	}
-	p->_next = newNode;
 	++(StrList->_size);
 }
 
 
 void StrList_insertAt(StrList* StrList, const char* data,int index){
-	Node* newNode = (Node*)malloc(sizeof(Node));
-	newNode->_data = NULL;
-	strcpy(newNode->_data, data);
-	newNode->_next = NULL;
+	char* str = strdup(data);
+	Node* newNode = Node_alloc(str,NULL);
 	Node* p = StrList->_head;
-
-	for(int i=0; i<index && p!=NULL; i++){
+	Node* prev = NULL;
+	for(int i = 0; i < index&&p!=NULL; i++){
+		prev = p;
 		p = p->_next;
 	}
-	p->_next = newNode;
+	newNode->_next = p;
+	prev->_next = newNode;
 	++(StrList->_size);
 }
 
@@ -85,33 +94,38 @@ char* StrList_firstData(const StrList* list){
 }
 
 void StrList_print(const StrList* StrList){
-    const Node* p = StrList->_head;
-	while(p!=NULL) {
-		printf(" %.2s",p->_data);
-		p= p->_next;
+    Node* p = StrList->_head;
+	while(p->_next!=NULL) {
+		printf("%s ",p->_data);
+		p = p->_next;
 	}
-	printf("|| size:%zu\n",StrList->_size);
+	if(p!=NULL){
+		printf("%s",p->_data);
+	}
+	printf("\n");
 }
 
 void StrList_printAt(const StrList* Strlist,int index){// hadar
 	Node* p = Strlist->_head;
-	for (int i = 0; i <= index; i++)
+	for (int i = 0; i < index&&p!=NULL; i++)
 	{
 		p = p->_next;
 	}
-	printf("(%s)->",p->_data);
+	printf("%s\n",p->_data);
 }
 
 int StrList_printLen(const StrList* Strlist){//hadar
 	Node* p = Strlist->_head;
-	char *str = Strlist->_head->_data;
+	char* str = Strlist->_head->_data;
 	int count = 0;
-	while (p!=NULL)
+	while (p->_next!=NULL)
 		{
 			count += strlen(str);
 			p = p->_next;
 			str = p->_data;
 		}
+		count += strlen(str);
+		printf("%d\n",count);
 	return count;
 }
 
@@ -119,14 +133,14 @@ int StrList_count(StrList* StrList, const char* data){//hadar
 	int count = 0;
 	Node* p = StrList->_head;
 	char *str = StrList->_head->_data;
-	while (p!=NULL)
-		{
+	while (p!=NULL){
 		if(strcmp(str,data) == 0){
 			count++;
 		}
-		p = p->_next;
 		str = p->_data;
+		p = p->_next;
 		}
+	printf("%d\n",count);
 	return count;
 }
 
@@ -134,8 +148,7 @@ void StrList_remove(StrList* list, const char* data){//hadar
 	char *str = list->_head->_data;
 	Node* p = list->_head;
 	Node* prev = NULL;
-	while (p!=NULL)
-		{
+	while (p!=NULL){
 		if(strcmp(str,data) == 0){
 			if (prev == NULL) {
 					// If the match is in the first node
@@ -145,11 +158,10 @@ void StrList_remove(StrList* list, const char* data){//hadar
 				// If the match is in a subsequent node
 					prev->_next = p->_next;
 				}
-
-				// Free the memory allocated for the string
-				free(p->_data);
 				free(p);
-		}
+				--(list->_size);
+				return;
+			}
 		prev = p;
 		p = p->_next;
 		str = p->_data;
@@ -157,26 +169,33 @@ void StrList_remove(StrList* list, const char* data){//hadar
 }
 
 void StrList_removeAt(StrList* list, int index){//hadar
+	if(list->_head == NULL){//if the list is empty
+		return;
+	}
 	Node* p = list->_head;
 	Node* prev = NULL;
-	for (int i = 0; i<=index; i++){
-		if(i==index){
-			if (prev == NULL) {
-					// If the match is in the first node
-					list->_head = p->_next;
-				}
-			else {
-				// If the match is in a subsequent node
-				prev->_next = p->_next;
-				}
-
-				// Free the memory allocated for the string
-				free(p->_data);
-				free(p);
-		}
+	for (int i = 0; i<index;i++){
 		prev = p;
 		p = p->_next;
 	}
+	if(prev == NULL){//the head is removed
+		if(p->_next == NULL){//if we remove the last node of the list
+			list->_head = NULL;
+			free(p);
+			--(list->_size);
+			return;
+		}
+		list->_head = p->_next;
+	}
+	else if(p->_next == NULL){
+		prev->_next = NULL;
+	}
+	else {
+		// If the match is in a subsequent node
+		prev->_next = p->_next;
+	}
+	free(p);
+	--(list->_size);
 }
 
 int StrList_isEqual(const StrList* StrList1, const StrList* StrList2){
@@ -237,23 +256,38 @@ void StrList_reverse(StrList* list){
 		list->_head = prev;
 }
 
-void StrList_sort(StrList* StrList){
-	qsort(StrList, StrList->_size, sizeof(StrList[0]), compare);
-}
-
-int compare(const void *a, const void *b){
-	return strcasecmp(*(const char **)a, *(const char **)b); //If the first string need to be the former: <0. else: >0.
+void StrList_sort(StrList* list){
+	if(list->_head==NULL){
+		return;
+	}
+	Node* p = list->_head;
+	Node* ptmp = list->_head;
+	char* tmp = "";
+		while(ptmp!=NULL){
+			p = ptmp;
+			while(p!=NULL){
+				if (strcmp(ptmp->_data,p->_data) > 0){
+					tmp = ptmp->_data;
+					ptmp->_data = p->_data;
+					p->_data = tmp;
+				}
+				p = p->_next;
+			}
+			ptmp = ptmp->_next;
+		}
 }
 
 int StrList_isSorted(StrList* StrList){
 	Node* p = StrList->_head->_next;
 	Node* prev = StrList->_head;
-	for(int i=0; i<StrList->_size-1; i++){
-		if((strcasecmp(prev->_data,p->_data))>0){
+	while(p!=NULL){
+		if((strcmp(prev->_data,p->_data))>0){
+			printf("false\n");
 			return 0; //false
 		}
 		prev = p;
 		p = p->_next;
 	}
+	printf("true\n");
 	return 1; //true
 }
