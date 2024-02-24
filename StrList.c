@@ -180,8 +180,8 @@ void StrList_removeAt(StrList* list, int index){//hadar
 	}
 	if(prev == NULL){//the head is removed
 		if(p->_next == NULL){//if we remove the last node of the list
+			free(list->_head);
 			list->_head = NULL;
-			free(p);
 			--(list->_size);
 			return;
 		}
