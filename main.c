@@ -73,11 +73,12 @@ int main(){
 
 
         case 11:
-            int i = list->_size-1;
-            while(i>=0){
+            int i = (list->_size)-1;
+            while(i>0){
                 StrList_removeAt(list,i);
                 i--;
-            }   
+            }
+            list->_head->_data = "";  
             break;
 
         case 12:
