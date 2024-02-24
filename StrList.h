@@ -34,7 +34,7 @@ void StrList_free(StrList* StrList);
 /*
  * Returns the number of elements in the StrList.
  */
-size_t StrList_size(StrList* StrList);
+size_t StrList_size(const StrList* StrList);
 
 /*
  * Inserts an element in the end of the StrList.
@@ -110,4 +110,3 @@ void StrList_sort( StrList* StrList);
  * returns 1 for sorted,   0 otherwise
  */
 int StrList_isSorted(StrList* StrList);
-
